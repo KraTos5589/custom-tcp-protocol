@@ -9,22 +9,13 @@ import org.junit.jupiter.api.Test;
 
 
 public class ClientTest {
+  public static final String NULL = "null";
   private Server server;
   private Client client;
 
-//  public static void main(String[] args)  {
-//    sendRequest("PUT abc_123");
-//    sendRequest("PUT xyz_456");
-//    sendRequest("GET xyz");
-//    sendRequest("GET pqr");
-//    sendRequest("GET abc");
-//    sendRequest( "DELETE abc");
-//    sendRequest("GET abc");
-//    sendRequest("ZFHDF AHD");
-//  }
-
   @BeforeEach
   public void setUp() throws IOException {
+    System.out.println("--------------Test Started--------------");
     server = new Server(1234);
     server.start();
     client = new Client("localhost", 1234);
@@ -34,6 +25,17 @@ public class ClientTest {
   public void tearDown() throws IOException, InterruptedException {
     client.closeServer();
     server.shutdown();
+    System.out.println("--------------Test Finished--------------");
+    System.out.println();
+  }
+
+  @Test
+  public void testEmptyGet() {
+    String key = "abc";
+
+    String valueReceivedFromGet = client.get(key);
+
+    Assertions.assertEquals(NULL, valueReceivedFromGet);
   }
 
   @Test
@@ -56,6 +58,6 @@ public class ClientTest {
 
     String valueReceivedFromGet = client.get(key);
 
-    Assertions.assertEquals("null", valueReceivedFromGet);
+    Assertions.assertEquals(NULL, valueReceivedFromGet);
   }
 }
